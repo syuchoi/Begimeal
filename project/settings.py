@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-#SECRET_KEY 
+# SECRET_KEY 
 # SECRET_BASE_FILE = os.path.join(BASE_DIR, 'secrets.json')
 
 # secrets = json.loads(open(SECRET_BASE_FILE).read())
@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# 환경변수 분리 (86번째 줄에 추가)
+# 환경변수 분리
 def get_env_variable(var_name):
     try:
         return os.environ[var_name]
