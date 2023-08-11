@@ -61,6 +61,7 @@ MIDDLEWARE = [
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://127.0.0.1:8000",
+    "https://port-0-begimeal-ac2nll45iv0u.sel3.cloudtype.app",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
