@@ -58,6 +58,15 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "http://127.0.0.1:8000",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+#script안에서의 리소스 요청을 허용할 도메인 추가
+
 ROOT_URLCONF = 'project.urls'
 
 TEMPLATES = [
