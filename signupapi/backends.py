@@ -1,6 +1,7 @@
 import jwt
 
 from django.conf import settings
+from django.core.cache import cache
 from rest_framework import authentication, exceptions
 
 from .models import User
@@ -29,6 +30,9 @@ class JWTAuthentication(authentication.BaseAuthentication):
         return self._authenticate_credentials(request, token)
 
     def _authenticate_credentials(self, request, token):     
+        if cache.get(token) == "blacklist":
+            raise exceptions.AuthenticationFailed("로그아웃된 토큰입니다")
+        
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
         except:

@@ -1,9 +1,10 @@
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 
 from .serializers import RegistrationSerializer, LoginSerializer, UserSerializer
 from .renderers import UserJSONRenderer
@@ -36,7 +37,19 @@ class LoginAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
+class LogoutAPIView(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        auth_header = request.META['HTTP_AUTHORIZATION'].split()
+
+        token = auth_header[1]
+        
+        cache.set(token, 'blacklist', 3600)  # 사용자 지정 TTL값으로 로그아웃(블랙리스트) 토큰을 캐시에 저장합니다.
+
+        return Response({"detail": "로그아웃 되었습니다."}, status=status.HTTP_200_OK)
+
 class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     permission_classes = (IsAuthenticated,)
     renderer_classes = (UserJSONRenderer,)

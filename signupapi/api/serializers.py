@@ -33,6 +33,7 @@ class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     username = serializers.CharField(max_length=255, read_only=True)
     password = serializers.CharField(max_length=128, write_only=True)
+    token = serializers.CharField(max_length=255, read_only=True) #응애 나 애기 토큰
     last_login = serializers.CharField(max_length=255, read_only=True)
 
     def validate(self, data):
@@ -67,6 +68,7 @@ class LoginSerializer(serializers.Serializer):
         return {
             'email': user.email,
             'username': user.username,
+            'token': user.token,  # 토큰 '줘'
             'last_login': user.last_login
         }
     
